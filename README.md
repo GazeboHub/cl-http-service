@@ -21,3 +21,18 @@ endpoints.
 ### Extending the Abstract Model for HTTP Services
 
 (To Do)
+
+
+### URI as Resources References
+
+(To Do)
+
+### Additional Protocol: Strongly Typed Generic Functions
+
+(?)
+
+### References
+
+(Cite here - RFCs onto HTTP; later, a WebDAV module; possibly,
+something after the Java servlet model, and something after the Java
+portal model, although programmed in Common Lisp)
