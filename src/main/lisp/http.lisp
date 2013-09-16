@@ -63,10 +63,13 @@
   (declare (values (mod 1000) &optional))
   (%http-status-code response))
 
+(deftype http-status-code ()
+  '(mod #.(1+ 505)))
+
 (defclass http-response (protocol-response)
   ((status-code
     :accessor %http-status-code
-    :type (mod 1000))))
+    :type http-status-code)))
 
 (defclass http-response-class (http-response protocol-response-class)
   ())
