@@ -42,7 +42,7 @@
 (defclass http-request-class (http-request protocol-request-class)
   ())
 
-(defun http-response-code (response)
+(defun http-status-code (response)
   ;; An effort in making a call to a generic function, in such a
   ;; manner as that ultimately produces a strongly typed return value
   ;;
@@ -61,11 +61,11 @@
   ;; and cf. AMOP (COMPUTE-DISCRIMINATING-FUNCTION and its uses)
   ;; also cf. memoization
   (declare (values (mod 1000) &optional))
-  (%http-response-code response))
+  (%http-status-code response))
 
 (defclass http-response (protocol-response)
-  ((response-code
-    :accessor %http-response-code
+  ((status-code
+    :accessor %http-status-code
     :type (mod 1000))))
 
 (defclass http-response-class (http-response protocol-response-class)

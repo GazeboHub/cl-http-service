@@ -18,7 +18,7 @@
    #:http-server
    #:http-request
    #:http-request-class
-   #:http-response-code
+   #:http-status-code
    #:http-response
    #:http-response-class
    ))
