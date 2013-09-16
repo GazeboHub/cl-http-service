@@ -39,15 +39,3 @@
    #:protocol-client-class
    #:protocol-server-class
    ))
-
-(defpackage #:protocol/http
-  (:use #:protocol #:cl)
-  (:export
-   #:http-client
-   #:http-server
-   #:http-request
-   #:http-request-class
-   #:http-response-code
-   #:http-response
-   #:http-response-class
-   ))

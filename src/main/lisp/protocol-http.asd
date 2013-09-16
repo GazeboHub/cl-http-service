@@ -13,10 +13,10 @@
 (in-package #:cl-user)
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
- (defpackage #:protocol-http/system
+ (defpackage #:protocol/http/system
    (:use #:asdf #:cl)))
 
-(in-package #:protocol-http/system)
+(in-package #:protocol/http/system)
 
 (defsystem #:protocol-http
   :depends-on (#:protocol)

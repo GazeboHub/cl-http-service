@@ -63,16 +63,66 @@
   ;;   * http://www.sbcl.org/sbcl-internals/Accessor-Discriminating-Functions.html
   ;; and cf. AMOP (COMPUTE-DISCRIMINATING-FUNCTION and its uses)
   ;; also cf. memoization
-  (declare (values http-status-code) &optional))
+  (declare (values http-status-code &optional))
   (%http-status-code response))
-
-(deftype http-status-code ()
-  '(mod #.(1+ 505)))
 
 (defclass http-response (protocol-response)
   ((status-code
+    :initarg :status-code
     :accessor %http-status-code
     :type http-status-code)))
 
 (defclass http-response-class (http-response protocol-response-class)
+  ;; Note that the HTTP-RESPONE-CLASS metaclasses may be indexed by
+  ;; STATUS-CODE, as the STATUS-CODE representing an integral value
+  ;; less than 505
+  ;;
+  ;; Though the indexing algorithm could use a tree for indexing the
+  ;; classes by status code, but as due to the limited, fixed number
+  ;; of possible status code values, a SIMPLE-ARRAY methodology will
+  ;; be preferred
   ())
+
+
+;;; * A Trivial Class Indexing Algorithm
+
+(declaim (type (simple-array * (5 17)) %response-classes%))
+
+
+(defparameter %response-classes%
+  ;; FIXME: Mark this variable's value for stack allocation
+
+  ;; Structure:
+  ;;  5 seperate ranges of response code (1xx..5xx)
+  ;;  Maximum 17 codes in any range (17 of 4xx codes)
+  ;;  (Some empty space, in a tradeoff for optimized access)
+  (make-array '(5 17) :initial-element nil
+	      :element-type t))
+
+
+
+#+NIL
+(defun store-response-foo (code foo)
+  (declare
+   (type http-status-code code)
+   #+NIL (values (or http-response-class null) &optional))
+  (multiple-value-bind (m n)
+      (truncate code 100)
+    (setf (aref %response-classes% m n) foo)))
+
+(defun find-response-class-using-code (code &optional (errorp t))
+  (declare
+   (type http-status-code code)
+   (values (or http-response-class null) &optional))
+  (multiple-value-bind (m n)
+      (truncate code 100)
+    (let ((it (aref %response-classes% m n)))
+      (cond
+	(it it)
+	(errorp
+	 ;; FIXME: Use a fancier error class
+	 (error "No class registered for response code ~s" code))
+	(t nil)))))
+
+;; (store-response-foo 404 "Foo No Foo")
+;; (find-response-class-using-code 404 nil)
