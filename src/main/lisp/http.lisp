@@ -42,6 +42,9 @@
 (defclass http-request-class (http-request protocol-request-class)
   ())
 
+(deftype http-status-code ()
+  '(mod #.(1+ 505)))
+
 (defun http-status-code (response)
   ;; An effort in making a call to a generic function, in such a
   ;; manner as that ultimately produces a strongly typed return value
@@ -60,13 +63,13 @@
   ;;   * http://www.sbcl.org/sbcl-internals/Accessor-Discriminating-Functions.html
   ;; and cf. AMOP (COMPUTE-DISCRIMINATING-FUNCTION and its uses)
   ;; also cf. memoization
-  (declare (values (mod 1000) &optional))
+  (declare (values http-status-code) &optional))
   (%http-status-code response))
 
 (defclass http-response (protocol-response)
   ((status-code
     :accessor %http-status-code
-    :type (mod 1000))))
+    :type http-status-code)))
 
 (defclass http-response-class (http-response protocol-response-class)
   ())
