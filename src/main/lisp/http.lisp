@@ -66,6 +66,9 @@
   (declare (values http-status-code) &optional))
   (%http-status-code response))
 
+(deftype http-status-code ()
+  '(mod #.(1+ 505)))
+
 (defclass http-response (protocol-response)
   ((status-code
     :accessor %http-status-code
