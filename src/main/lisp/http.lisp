@@ -1,4 +1,3 @@
-
 #|
 
   Copyright (c) 2013, Sean Champ. All rights reserved.
@@ -10,52 +9,7 @@
 
 |#
 
-
-(in-package #:http-service)
-
-;;; Generic Object System Protocol (network protocol clients)
-
-(defclass protocol-client ()
-  ())
-
-
-;;; Generic Object System Protocol (request/response)
-
-;; FIXME: Develop a protocol for strongly typed generic functions,
-;; in reference to HTTP-RESPONSE-CODE.
-;;
-;; Approach 1: The ftype of a strongly typed generic function must be
-;; the ftype of the primary method or (when present) the :AROUND method
-;;
-;; Approach 2: The ftype of a strongly typed generic function  must be
-;; specified in the generic function's definition, at compile time.
-
-(defgeneric protocol-request-remote-client (request))
-
-(defgeneric protocol-request-local-client (request))
-
-
-(defclass protocol-request ()
-  ((remote-client
-    :type protocol-client
-    :initarg :remote-client
-    :reader protocol-request-remote-client
-    )
-   (local-client
-    :type protocol-client
-    :initarg :local-client
-    :reader protocol-request-local-client
-    )))
-
-(defclass protocol-request-class (protocol-request standard-class)
-  ())
-
-
-(defclass protocol-response ()
-  ())
-
-(defclass protocol-response-class (protocol-response standard-class)
-  ())
+(in-package #:protocol/http)
 
 
 ;;; Generic Protocol Extended onto HTTP
@@ -67,8 +21,10 @@
   ;; The client's address type must be determined external to the
   ;; client metaclass, rather as a feature of an ADAPTOR onto a nework
   ;; INTERFACE
-  ()
-  )
+  ())
+
+(defclass http-server (protocol-server)
+  ())
 
 (defclass http-request (protocol-request)
   ((request-type
@@ -87,6 +43,23 @@
   ())
 
 (defun http-response-code (response)
+  ;; An effort in making a call to a generic function, in such a
+  ;; manner as that ultimately produces a strongly typed return value
+  ;;
+  ;; Note that this approach of "Dispatch to a generic function from
+  ;; within a conventinoal function" will ensure consistency of return
+  ;; values, but may not serve to support some optimizations in method
+  ;; combination and method dispatching - e.g. with regards to
+  ;; discriminating  functions - such as at least hypothetically could
+  ;; be optimized on known types of input values.
+  ;;
+  ;; cf. SBCL internals - specifically, with regars to discriminating
+  ;; functions
+  ;;   * http://www.sbcl.org/sbcl-internals/Discriminating-Functions.html
+  ;;   * http://www.sbcl.org/sbcl-internals/Method_002dBased-Discriminating-Functions.html
+  ;;   * http://www.sbcl.org/sbcl-internals/Accessor-Discriminating-Functions.html
+  ;; and cf. AMOP (COMPUTE-DISCRIMINATING-FUNCTION and its uses)
+  ;; also cf. memoization
   (declare (values (mod 1000) &optional))
   (%http-response-code response))
 
