@@ -1,5 +1,5 @@
-cl-http-service
-===============
+cl-service-protocol (was: cl-http-service)
+==========================================
 
 An HTTP Service Implementation for Common Lisp
 
@@ -37,3 +37,36 @@ endpoints.
 (Cite here - RFCs onto HTTP; later, a WebDAV module; possibly,
 something after the Java servlet model, and something after the Java
 portal model, although programmed in Common Lisp)
+
+
+## Project Items
+
+### To Do (16 Sept 2013)
+
+* Integrate [current Cubetto model](doc/Cubetto/) into codebase
+    * Define package `#:protocol/host/posix`
+        * Define generic functions illustrated in model
+            * `Make-Socket`
+     * Define package `#:protocol/inet/tcp`
+        * Import packages `#:protocol`, `#:protocol/host/posix`
+        * Define classes illustrated in model
+            * `TCP-Server`
+            * `TCP-Client`
+            * `Inet-Interface`
+            * `IPv4-Interface`
+            * `IPv6-Interface`
+        * Define methods illustrated in model
+            * `Bind-Server (TCP-Server Inet-Interface)`
+        * Define methods illustrated in model
+            * `Make-Socket (IPv4-Interface)`
+            * `Make-Socket (IPv6-Interface)`
+* Develop a prototype for integration of `Protocol-Event` model into
+  the operations of a simple, protocol-specific subclass of `TCP-Server`
+* Develop `TCP-Client` model
+    * Develop a prototype for integration of `Protocol-Event` model into
+      the operations of a simple, protocol-specific subclass of 
+      `TCP-Client`
+* Name-migration (early) cl-http-service => cl-service-protocol
+    * Fork GitHub repository => cl-service-protocol
+    * Mark cl-http-service deprecated, with explanation
+    * Continue development onto cl-service-protocol repository
