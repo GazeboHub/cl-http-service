@@ -11,7 +11,7 @@
 
 (in-package #:cl-user)
 
-(defpackage #:protocol/http
+(defpackage #:protocol/service/http
   (:use #:protocol #:cl)
   (:export
    #:http-client

@@ -9,7 +9,7 @@
 
 |#
 
-(in-package #:protocol/http)
+(in-package #:protocol/service/http)
 
 
 ;;; Generic Protocol Extended onto HTTP
