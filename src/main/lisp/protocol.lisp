@@ -19,8 +19,13 @@
   ())
 
 
+(defgeneric peer-host-entity (peeer))
+
+
 (defclass protocol-client (protocol-peer)
-  ())
+  ((host-entity
+    :initarg :host-entity
+    :accessor peer-host-entity)))
 
 
 (defclass protocol-server (protocol-peer)
