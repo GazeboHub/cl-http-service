@@ -25,6 +25,8 @@
    #:protocol-client
    #:protocol-server
 
+   #:protocol-interface
+
    #:bind-server
 
    #:protocol-event
