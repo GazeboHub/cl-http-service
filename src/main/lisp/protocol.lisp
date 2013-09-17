@@ -45,9 +45,9 @@
 ;; Approach 2: The ftype of a strongly typed generic function  must be
 ;; specified in the generic function's definition, at compile time.
 
-(defgeneric protocol-event-remote-peer (request))
+(defgeneric protocol-event-remote-peer (event))
 
-(defgeneric protocol-event-local-peer (request))
+(defgeneric protocol-event-local-peer (event))
 
 (defclass protocol-event ()
   ((remote-peer
